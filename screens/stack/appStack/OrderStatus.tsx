@@ -10,18 +10,23 @@ import CustomText from '../../../customs/CustomText';
 import { useBackHandler } from '../../../utils/BackHandling';
 import { useDispatch } from 'react-redux';
 import { useAppDispatch } from '../../../redux/Store';
-import { fetchCart } from '../../../redux/slice/CartSlice';
+import { clearCart, fetchCart } from '../../../redux/slice/CartSlice';
+import CustomButton from '../../../customs/CustomButton';
+import Colors from '../../../utils/Color';
 
 const OrderStatus = () => {
   const route = useRoute();
-  const navigation = useNavigation();
+  const navigation: any = useNavigation();
   const dispatch = useAppDispatch();
   const props = route?.params as any;
 
+  console.log("-=-=--=-=- props?.order -=-=-=--=-=-=-=-", props?.order)
+
   // ✅ Hook usage (auto navigates to BottomTabs after 10s)
   useBackHandler(async () => {
+    await dispatch(clearCart());
     await dispatch(fetchCart());
-    navigation.navigate('HomeBlank' as never);
+    navigation.navigate('AppDrawer' as never);
   });
 
   const renderStatusImage = () => {
@@ -40,7 +45,7 @@ const OrderStatus = () => {
   const renderStatusText = () => {
     switch (props?.order?.status) {
       case 'COMPLETED':
-        return 'Your order has been completed';
+        return `Your order has been completed ${props?.order?.orderCode}`;
       case 'FAILED':
         return 'Your order has failed';
       default:
@@ -56,8 +61,24 @@ const OrderStatus = () => {
           source={renderStatusImage()}
           resizeMode={FastImage.resizeMode.contain}
         />
-        <CustomText weight="600" size={18} text={renderStatusText()} />
+        <CustomText customStyle={{ textAlign: "center" }} weight="600" size={18} text={renderStatusText()} />
+        <CustomButton
+          title='Go to Home'
+          bg={Colors.white}
+          textColor={Colors.black}
+          customStyle={{
+            borderWidth: 1,
+            borderColor: Colors.primary,
+            marginTop:moderateScale(10),
+            width:"50%"
+          }}
+          onPress={async() => {
+            await dispatch(fetchCart());
+            navigation.navigate("AppDrawer")
+          }}
+        />
       </View>
+
     </Container>
   );
 };

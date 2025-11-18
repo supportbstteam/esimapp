@@ -12,7 +12,7 @@ import Toast from "react-native-toast-message";
 import Container from "../../../components/Container";
 import Header from "../../../customs/Headers/Header";
 import { useAppDispatch, useAppSelector } from "../../../redux/Store";
-import { fetchCart } from "../../../redux/slice/CartSlice";
+import { clearCart, fetchCart } from "../../../redux/slice/CartSlice";
 import FlagContainer from "../../../components/FlagContainer";
 import CustomText from "../../../customs/CustomText";
 import { globalStyle } from "../../../utils/GlobalStyle";
@@ -23,11 +23,12 @@ import { api } from "../../../utils/ApiService";
 import { waitForOrderCompletion } from "../../../utils/OrderStatusFunction";
 
 const Checkout = () => {
-    const navigation:any = useNavigation();
+    const navigation: any = useNavigation();
     const dispatch = useAppDispatch();
     const cart: any = useAppSelector((state) => state?.cart?.cart);
     const { initPaymentSheet, presentPaymentSheet } = useStripe();
     const [loading, setLoading] = useState(false);
+    const [codLoading, setCodLoading] = useState(false);
 
     // fetch cart on focus
     useFocusEffect(
@@ -65,7 +66,7 @@ const Checkout = () => {
             // 4️⃣ Wait for backend to process webhook & create order
             const order = await waitForOrderCompletion(transactionId);
 
-            console.log("----- order -----",order);
+            console.log("----- order -----", order);
 
             if (order?.status === "COMPLETED" || order?.status === "PARTIAL") {
                 await dispatch(fetchCart());
@@ -108,6 +109,37 @@ const Checkout = () => {
 
 
     // console.log("----- total amount ----",totalAmount);
+
+    const handleCod = async () => {
+        setCodLoading(true)
+        try {
+            const response: any = await api({
+                url: "/user/transactions/cod",
+                data: {
+                    cartId: cart?.id
+                },
+                method: "POST"
+            });
+
+            if (response?.order?.status === "COMPLETED" || response?.order?.status === "PARTIAL") {
+                await dispatch(fetchCart());
+                await dispatch(clearCart());
+                navigation.navigate("OrderStatus", { order: response?.order });
+            } else {
+                await dispatch(fetchCart());
+                await dispatch(clearCart());
+                navigation.navigate("OrderStatus", { order: response?.order });
+            }
+
+            // console.log("-=-=-=-=-=-=-= response -=-=-=-=-=-=", response);
+        }
+        catch (err) {
+            console.error("Error in the handle COD", err);
+        }
+        finally {
+            setCodLoading(false);
+        }
+    }
 
     // UI
     return (
@@ -188,8 +220,9 @@ const Checkout = () => {
             </ScrollView>
 
             {/* Button */}
-            <View style={{ marginTop: moderateScale(20), flex: 0.15 }}>
-                <CustomButton title="Pay Now" loading={loading} disabled={loading} onPress={handleStripePayment} />
+            <View style={{ marginTop: moderateScale(20), flex: 0.25 }}>
+                <CustomButton title="Pay Now" loading={loading} disabled={loading || codLoading} onPress={handleStripePayment} />
+                <CustomButton title="Pay Cash on Delivery" bg={Colors.secondary} customStyle={{ marginTop: moderateScale(10) }} loading={codLoading} disabled={codLoading || loading} onPress={handleCod} />
             </View>
         </Container>
     );

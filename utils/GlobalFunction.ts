@@ -1,6 +1,7 @@
 import Toast from "react-native-toast-message";
 import { addToCart } from "../redux/slice/CartSlice";
 import { AppDispatch } from "../redux/Store";
+import { api } from "./ApiService";
 
 export const handleAddToCart = async (plan: any, dispatch: AppDispatch) => {
   try {
@@ -32,3 +33,32 @@ export const handleAddToCart = async (plan: any, dispatch: AppDispatch) => {
     });
   }
 };
+
+export const postUploadQuery = async ({ setLoading, data }: any) => {
+  setLoading(true);
+  try {
+    const response = await api({
+      url: "/user/query/create-query",
+      method: "POST",
+      data
+    });
+
+    if(response?.status){
+      Toast.show({
+        type:"success",
+        text1:response?.message,
+        text2:"You may check your complain on your mail"
+      })
+      return response;
+    }
+
+
+    console.log("response in the contact query", response);
+  }
+  catch (err: any) {
+    console.error("Error in the esim", err);
+  }
+  finally{
+    setLoading(false);
+  }
+}

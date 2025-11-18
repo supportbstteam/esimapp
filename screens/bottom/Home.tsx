@@ -143,7 +143,7 @@ const Home = () => {
                         <View style={{ marginTop: moderateScale(20) }}>
                             <CustomText text="Popular Country" weight="700" size={18} />
                             <FlatList
-                                data={countries}
+                                data={countries.slice(0,5)}
                                 keyExtractor={(item) => item?.id?.toString()}
                                 horizontal
                                 contentContainerStyle={{

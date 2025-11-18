@@ -8,7 +8,7 @@ import { globalStyle } from '../../utils/GlobalStyle'
 import moment from 'moment'
 
 const SimCard2 = ({ item }: any) => {
-
+    console.log("-=-=-==-= item sim cart -=-=-=-=-=-",item);
     const country = item?.country;
     const price = Number(item?.price || 0).toFixed(2);
     const currency = item?.currency === "USD" ? "$" : item?.currency;

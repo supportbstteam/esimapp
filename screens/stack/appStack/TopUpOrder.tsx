@@ -20,9 +20,13 @@ const TopUpOrder = () => {
     const sim = router?.params?.sim;
     const topup = router?.params?.topup;
     const [loading, setLoading] = useState(false);
+    const [codloading, setCodLoading] = useState(false);
 
 
     const handleStripePayment = async () => {
+
+        // console.log("-=-=-=-=- top up id -=-=-=-=-=",topup?.id);
+        // return;
         setLoading(true);
         try {
             // 1️⃣ Create PaymentIntent
@@ -55,7 +59,7 @@ const TopUpOrder = () => {
             const order = await waitForOrderTopUpCompletion(transactionId);
 
             console.log("----- top up trnasction -----", order);
- 
+
             if (order?.status === "COMPLETED" || order?.status === "PARTIAL") {
                 // await dispatch(fetchCart());
                 navigation.navigate("OrderStatus", { order });
@@ -75,6 +79,41 @@ const TopUpOrder = () => {
             setLoading(false);
         }
     };
+
+
+    const handeTopCod = async () => {
+        setCodLoading(true);
+        try {
+            const response: any = await api({
+                url: "/user/top-up/cod",
+                method: "POST",
+                data: {
+                    topupId: topup?.id,
+                    esimId: sim?.id
+                }
+            });
+
+            if (response?.message === 'COD top-up transaction created') {
+                // await dispatch(fetchCart());
+                navigation.navigate("OrderStatus", {
+                    order:response
+                });
+            } else {
+                // await dispatch(fetchCart());
+                navigation.navigate("OrderStatus",{
+                    order:response
+                });
+            }
+
+            console.log("-=-=--=-=-=- response in the cod -=--=-==-=-=-=-=", response);
+        }
+        catch (err) {
+            console.error("Error in the COD top up", err);
+        }
+        finally {
+            setCodLoading(false);
+        }
+    }
 
     return (
         <Container>
@@ -105,8 +144,25 @@ const TopUpOrder = () => {
             {/* Confirm Button */}
             <CustomButton
                 loading={loading}
-                disabled={loading}
+                disabled={loading || codloading}
                 title="Proceed to Payment"
+                radius={10}
+                customStyle={{
+                    marginTop: moderateScale(20),
+                    borderRadius: moderateScale(10),
+                    position: "absolute",
+                    bottom: moderateScale(90),
+                    alignSelf: "center"
+                }}
+                onPress={handleStripePayment}
+            />
+
+            {/* Confirm Button */}
+            <CustomButton
+                loading={codloading}
+                disabled={codloading || loading}
+                title="Pay Cash on Delivery"
+                bg={Colors.secondary}
                 radius={10}
                 customStyle={{
                     marginTop: moderateScale(20),
@@ -115,7 +171,7 @@ const TopUpOrder = () => {
                     bottom: moderateScale(30),
                     alignSelf: "center"
                 }}
-                onPress={handleStripePayment}
+                onPress={handeTopCod}
             />
         </Container>
     );

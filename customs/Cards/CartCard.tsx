@@ -18,6 +18,9 @@ const CartCard = ({ item, onDelete }: any) => {
     const [quantity, setQuantity] = useState<number>(item?.quantity || 1);
     const [open, setOpen] = useState(false);
 
+    console.log("-=-=-=-=-=-=- item in the cart card -=-=-=-=-=-=-=", item);
+
+
     // ✅ Debounced API call (to avoid excessive requests)
     const debouncedUpdate = useCallback(
         debounce(async (cartItemId: string, newQuantity: number) => {
@@ -52,6 +55,7 @@ const CartCard = ({ item, onDelete }: any) => {
         { label: 'Data Plan', value: item?.plan?.name },
         { label: 'Data Allowance', value: item?.plan?.data },
         { label: 'Validity', value: `${item?.plan?.validityDays} Days` },
+        { label: 'Price', value: `${item?.plan?.currency === "USD" ? "$" : item?.plan?.currency} ${item?.plan?.price}` },
     ];
 
     const handleCartItemRemove = async () => {

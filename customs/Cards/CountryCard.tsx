@@ -7,7 +7,7 @@ import Colors from '../../utils/Color';
 import { useNavigation } from '@react-navigation/native';
 import FlagContainer from '../../components/FlagContainer';
 
-const CountryCard = ({ item }: any) => {
+const CountryCard = ({ item, width = screenWidth * .7 }: any) => {
     const navigation: any = useNavigation();
     // console.log("----- item in the country item -----", item);
     return (
@@ -15,11 +15,11 @@ const CountryCard = ({ item }: any) => {
             navigation.navigate("CountryPlans", {
                 id: item?.id
             })
-        }} activeOpacity={.7} style={[globalStyle.row, styles.container]} >
+        }} activeOpacity={.7} style={[globalStyle.row, styles.container, { width: width }]} >
             <FlagContainer
                 country={item}
             />
-            <View style={{ flex: .4, marginLeft:moderateScale(5) }} ><CustomText weight="600" size={18} text={item?.name} /></View>
+            <View style={{ flex: .4, marginLeft: moderateScale(5) }} ><CustomText weight="600" size={18} text={item?.name} /></View>
             <View style={{ flex: .6 }} >
                 <CustomText text='Starting from' weight="500" size={12} color={Colors.gray_font} />
                 <CustomText weight="700" text={`${item?.currency === "USD" ? "$" : item?.currency} ${parseFloat(item?.price).toFixed(2)}`} size={14} color={Colors.primary} />

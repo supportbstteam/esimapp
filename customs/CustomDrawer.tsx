@@ -34,26 +34,26 @@ const CustomDrawerContent = (props: DrawerContentComponentProps & { setLogoutVis
                 navigation.navigate('ContactUs');
             },
         },
-        {
-            title: 'Visit Website',
-            icon: { type: 'Feather', name: 'link' },
-            onPress: () => Linking.openURL('https://esim-olive.vercel.app/'),
-        },
-        {
-            title: 'About Us',
-            icon: { type: 'Feather', name: 'info' },
-            onPress: () => Linking.openURL(webUrl+"/about-us"),
-        },
-        {
-            title: 'Terms & Conditions',
-            icon: { type: 'Feather', name: 'alert-triangle' },
-            onPress: () => Linking.openURL(webUrl+"/terms-and-conditions"),
-        },
-        {
-            title: 'Privacy Policy',
-            icon: { type: 'Feather', name: 'alert-triangle' },
-            onPress: () => Linking.openURL(webUrl+"/privacy-policy"),
-        },
+        // {
+        //     title: 'Visit Website',
+        //     icon: { type: 'Feather', name: 'link' },
+        //     onPress: () => Linking.openURL('https://esim-olive.vercel.app/'),
+        // },
+        // {
+        //     title: 'About Us',
+        //     icon: { type: 'Feather', name: 'info' },
+        //     onPress: () => Linking.openURL(webUrl+"/about-us"),
+        // },
+        // {
+        //     title: 'Terms & Conditions',
+        //     icon: { type: 'Feather', name: 'alert-triangle' },
+        //     onPress: () => Linking.openURL(webUrl+"/terms-and-conditions"),
+        // },
+        // {
+        //     title: 'Privacy Policy',
+        //     icon: { type: 'Feather', name: 'alert-triangle' },
+        //     onPress: () => Linking.openURL(webUrl+"/privacy-policy"),
+        // },
     ];
 
     return (

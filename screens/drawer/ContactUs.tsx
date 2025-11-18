@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, useWindowDimensions } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View, useWindowDimensions } from 'react-native';
 import React, { useCallback, useState } from 'react';
 import Container from '../../components/Container';
 import Header from '../../customs/Headers/Header';
@@ -10,9 +10,12 @@ import Colors from '../../utils/Color';
 import RenderHTML from 'react-native-render-html';
 import { globalStyle } from '../../utils/GlobalStyle';
 import Loader from '../../customs/Loader';
+import { postUploadQuery } from '../../utils/GlobalFunction';
+import ContactFormScreen from '../../components/forms/ContactUsForm';
 
 const ContactUs = () => {
   const [loading, setLoading] = useState(false);
+  const [queryLoading, querySetLoading] = useState(false);
   const [contacts, setContacts] = useState<any[]>([]);
   const [content, setContent] = useState<any>(null);
   const { width } = useWindowDimensions();
@@ -44,6 +47,11 @@ const ContactUs = () => {
     }, [])
   );
 
+
+  const handleQuery = async (data: any) => {
+    await postUploadQuery({ querySetLoading, data });
+  }
+
   if (loading) {
     return (
       <View style={[globalStyle.center, { flex: 1, backgroundColor: "#fff" }]} >
@@ -56,59 +64,75 @@ const ContactUs = () => {
     <Container>
       <Header title='Contact Us' />
 
-      {/* MAIN CONTENT CARD */}
-      <View style={styles.card}>
-        <CustomText text={content?.title || "Contact Us"} weight="600" size={18} />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
+        style={{ flex: 1 }}
+      >
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          {/* MAIN CONTENT CARD */}
+          <View style={styles.card}>
+            <CustomText text={content?.title || "Contact Us"} weight="600" size={18} />
 
-        {/* Render the HTML content */}
-        {content?.html ? (
-          <RenderHTML
-            contentWidth={width - moderateScale(20)}
-            source={{ html: content.html }}
-          />
-        ) : (
-          <CustomText
-            text="No content available"
-            color={Colors.lightGray}
-            size={14}
-          />
-        )}
-      </View>
-
-      {/* CONTACT LIST */}
-      {contacts.length > 0 && (
-        <View style={[styles.card, { marginTop: moderateScale(15) }]}>
-          <CustomText
-            text="Contact Details"
-            weight="600"
-            size={18}
-            customStyle={{ marginBottom: moderateScale(10) }}
-          />
-
-          {contacts.map((item, index) => (
-            <View key={index} style={styles.contactRow}>
+            {/* Render the HTML content */}
+            {content?.html ? (
+              <RenderHTML
+                contentWidth={width - moderateScale(20)}
+                source={{ html: content.html }}
+              />
+            ) : (
               <CustomText
+                text="No content available"
+                color={Colors.lightGray}
+                size={14}
+              />
+            )}
+          </View>
+
+          {/* CONTACT LIST */}
+          {contacts.length > 0 && (
+            <View style={[styles.card, { marginTop: moderateScale(15) }]}>
+              <CustomText
+                text="Contact Details"
                 weight="600"
-                size={15}
-                text={`${item?.type || "Type"}:`}
+                size={18}
+                customStyle={{ marginBottom: moderateScale(10) }}
               />
-              <CustomText
-                size={15}
-                text={item?.value || "-"}
-                customStyle={{ marginLeft: moderateScale(5) }}
-              />
-              {item?.position ? (
-                <CustomText
-                  size={12}
-                  color={Colors.lightGray}
-                  customStyle={{ marginLeft: moderateScale(5) }}
-                  text={`(${item.position})`}
-                />
-              ) : null}
+
+              {contacts.map((item, index) => (
+                <View key={index} style={styles.contactRow}>
+                  <CustomText
+                    weight="600"
+                    size={15}
+                    text={`${item?.type || "Type"}:`}
+                  />
+                  <CustomText
+                    size={15}
+                    text={item?.value || "-"}
+                    customStyle={{ marginLeft: moderateScale(5) }}
+                  />
+                  {item?.position ? (
+                    <CustomText
+                      size={12}
+                      color={Colors.lightGray}
+                      customStyle={{ marginLeft: moderateScale(5) }}
+                      text={`(${item.position})`}
+                    />
+                  ) : null}
+                </View>
+              ))}
             </View>
-          ))}
-        </View>
-      )}
+          )}
+
+          <ContactFormScreen />
+          <View
+            style={{ paddingBottom: moderateScale(100) }}
+          />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </Container>
   );
 };
