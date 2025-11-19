@@ -13,6 +13,7 @@ import Header from '../../customs/Headers/Header'
 import OrderCard from '../../customs/Cards/OrderCard'
 import Loader from '../../customs/Loader'
 import NetworkWrapper from '../../customs/NetworkWrapper'
+import OrderCardSkeleton from '../../customs/Skeleton/OrderSkeleton'
 
 const Orders = () => {
   const dispatch = useAppDispatch();
@@ -33,11 +34,20 @@ const Orders = () => {
 
   if (loading)
     return (
-      <View style={[globalStyle.center, { flex: 1, backgroundColor: Colors.white }]} >
-        <Loader
-          size={moderateScale(120)}
+      <Container>
+        <Header title='Orders' />
+        <FlatList
+          data={[1, 2, 3]}
+          // horizontal
+          contentContainerStyle={{
+            gap: moderateScale(10),
+            marginTop: moderateScale(10),
+          }}
+          showsHorizontalScrollIndicator={false}
+          renderItem={() => <OrderCardSkeleton />}
+          keyExtractor={(i) => i.toString()}
         />
-      </View>
+      </Container>
     )
 
   return (

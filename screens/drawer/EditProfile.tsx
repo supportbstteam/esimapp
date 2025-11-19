@@ -5,6 +5,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
+  Pressable,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 
@@ -24,6 +25,7 @@ import Toast from 'react-native-toast-message';
 import { fetchUserDetails } from '../../redux/slice/UserSlice';
 import { globalStyle } from '../../utils/GlobalStyle';
 import * as yup from 'yup'
+import { useNavigation } from '@react-navigation/native';
 
 const userEditSchema = yup.object().shape({
   firstName: yup.string().required("*required"),
@@ -55,6 +57,7 @@ const fetchCountries = async () => {
 };
 
 const EditProfile = () => {
+  const navigation:any = useNavigation();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector(state => state?.user);
   const [countryList, setCountryList] = useState<any[]>([]);
@@ -211,14 +214,27 @@ const EditProfile = () => {
                 )}
 
                 {/* Save Button */}
-                <CustomButton
-                  title="Save Changes"
-                  radius={10}
-                  loading={false}
-                  disabled={false}
-                  onPress={handleSubmit}
-                  customStyle={styles.button}
-                />
+                <View style={styles.button} >
+                  <CustomButton
+                    title="Save Changes"
+                    radius={10}
+                    loading={false}
+                    disabled={false}
+                    onPress={handleSubmit}
+                  />
+                  <Pressable 
+
+                    onPress={()=>{
+                      navigation.navigate("ChangePassword")
+                    }}
+                  style={[{
+                    marginTop: moderateScale(10),
+                    alignSelf: "center"
+                  }]} >
+                    <CustomText color={Colors.secondary} text='Change Password?' />
+                  </Pressable>
+
+                </View>
               </View>
             )}
           </Formik>

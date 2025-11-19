@@ -15,42 +15,56 @@ import Colors from '../../../utils/Color'
 import { useNavigation } from '@react-navigation/native'
 import { fetchCart } from '../../../redux/slice/CartSlice'
 import EmptyCard from '../../../customs/Cards/EmptyCard'
+import CartCardSkeleton from '../../../customs/Skeleton/CartSkeleton'
 
 const Cart = () => {
   const dispatch = useAppDispatch();
   const navigation: any = useNavigation();
-  const { cart } = useAppSelector(state => state?.cart);
+  const { cart, loading } = useAppSelector(state => state?.cart);
 
-  // console.log("----- cart in the cart.tsx -----",cart);
+  console.log("----- cart in the cart.tsx -----",loading);
   return (
     <Container>
       <View style={{ flex: .9 }} >
         <Header title="Cart" />
         {
-          cart?.items && cart?.items.length > 0 ? <FlatList
-            data={cart?.items}
-            // style={{flex:.9}}
-            keyExtractor={item => item?.id}
-            contentContainerStyle={{
-              gap: 10,
-              alignSelf: "center",
-              marginTop: moderateScale(10),
-              paddingBottom: moderateScale(50),
-            }}
-            renderItem={({ item }) => {
-              return (
-                <CartCard item={item} onDelete={async () => {
-                  await dispatch(fetchCart());
-                }} />
-              )
-            }}
-          /> : (
-            <View style={[globalStyle.center, { flex: 1 }]} >
-              <EmptyCard text={"No Cart Available"} />
-              {/* <CustomText customStyle={{ textAlign: "center" }} text='No Cart available' color={Colors.lightGray} weight="500" size={16} /> */}
-            </View>
+          loading ? (
+            <FlatList
+              data={[1, 2, 3]}
+              renderItem={() => <CartCardSkeleton />}
+              keyExtractor={(i) => i.toString()}
+            />
+          ) : (
+            <>
+              {
+                cart?.items && cart?.items.length > 0 ? <FlatList
+                  data={cart?.items}
+                  // style={{flex:.9}}
+                  keyExtractor={item => item?.id}
+                  contentContainerStyle={{
+                    gap: 10,
+                    alignSelf: "center",
+                    marginTop: moderateScale(10),
+                    paddingBottom: moderateScale(50),
+                  }}
+                  renderItem={({ item }) => {
+                    return (
+                      <CartCard item={item} onDelete={async () => {
+                        await dispatch(fetchCart());
+                      }} />
+                    )
+                  }}
+                /> : (
+                  <View style={[globalStyle.center, { flex: 1 }]} >
+                    <EmptyCard text={"No Cart Available"} />
+                    {/* <CustomText customStyle={{ textAlign: "center" }} text='No Cart available' color={Colors.lightGray} weight="500" size={16} /> */}
+                  </View>
+                )
+              }
+            </>
           )
         }
+
       </View>
 
       {/* <CustomButton

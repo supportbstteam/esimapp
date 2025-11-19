@@ -14,6 +14,7 @@ import SimDetails from './SimDetails';
 import TopUp from './TopUp';
 import TopUpOrder from './TopUpOrder';
 import AppDrawer from '../../drawer/AppDrawer';
+import ChangePassword from './ChangePassword';
 const Stack = createNativeStackNavigator();
 const AppStack = () => {
 
@@ -30,6 +31,7 @@ const AppStack = () => {
     { id: 9, name: "SimDetails", component: SimDetails },
     { id: 10, name: "TopUp", component: TopUp },
     { id: 11, name: "TopUpOrder", component: TopUpOrder },
+    { id: 12, name: "ChangePassword", component: ChangePassword },
   ];
   return (
     <View style={{flex:1, backgroundColor:"#fff"}} >

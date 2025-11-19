@@ -110,7 +110,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
                         styles.input,
                         {
                             borderColor: isFocused ? Colors.primary : Colors.gray,
-                            color: textColor,
+                            color: editable ? textColor : Colors.text_secondary,
                             textAlignVertical: multiline ? 'top' : 'auto',
                             borderWidth: isFocused ? 1 : 0,
                         },

@@ -11,6 +11,7 @@ import { moderateScale } from '../../components/Matrix/Responsive'
 import EsimCard from '../../customs/Cards/EsimCard'
 import { globalStyle } from '../../utils/GlobalStyle'
 import NoData from '../../customs/Cards/NoData'
+import EsimCardSkeleton from '../../customs/Skeleton/EsimSkeleton'
 
 const Data = () => {
   const dispatch = useAppDispatch();
@@ -35,9 +36,17 @@ const Data = () => {
     return (
       <Container>
         <CustomText text='E-Sims' weight='700' size={22} customStyle={{ marginTop: moderateScale(10) }} />
-        <View style={[globalStyle.center, { flex: 1 }]} >
-          <Loader size={moderateScale(100)} />
-        </View>
+        <FlatList
+          data={[1, 2, 3]}
+          // horizontal
+          contentContainerStyle={{
+            gap: moderateScale(10),
+            marginTop: moderateScale(10),
+          }}
+          showsHorizontalScrollIndicator={false}
+          renderItem={() => <EsimCardSkeleton />}
+          keyExtractor={(i) => i.toString()}
+        />
       </Container>
     )
 
@@ -65,7 +74,7 @@ const Data = () => {
 
             />
           </View>
-        ):<NoData text='No E-SIM! Order Now' />}
+        ) : <NoData text='No E-SIM! Order Now' />}
       </Container>
     </NetworkWrapper>
   )

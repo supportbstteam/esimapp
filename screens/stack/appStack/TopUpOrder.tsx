@@ -93,15 +93,15 @@ const TopUpOrder = () => {
                 }
             });
 
-            if (response?.message === 'COD top-up transaction created') {
+            if (response?.status) {
                 // await dispatch(fetchCart());
                 navigation.navigate("OrderStatus", {
-                    order:response
+                    order: response?.order
                 });
             } else {
                 // await dispatch(fetchCart());
-                navigation.navigate("OrderStatus",{
-                    order:response
+                navigation.navigate("OrderStatus", {
+                    order: response?.order
                 });
             }
 
@@ -151,14 +151,14 @@ const TopUpOrder = () => {
                     marginTop: moderateScale(20),
                     borderRadius: moderateScale(10),
                     position: "absolute",
-                    bottom: moderateScale(90),
+                    bottom: moderateScale(30),
                     alignSelf: "center"
                 }}
                 onPress={handleStripePayment}
             />
 
             {/* Confirm Button */}
-            <CustomButton
+            {/* <CustomButton
                 loading={codloading}
                 disabled={codloading || loading}
                 title="Pay Cash on Delivery"
@@ -172,7 +172,7 @@ const TopUpOrder = () => {
                     alignSelf: "center"
                 }}
                 onPress={handeTopCod}
-            />
+            /> */}
         </Container>
     );
 };

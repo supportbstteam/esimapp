@@ -28,15 +28,18 @@ import { fetchSimsByUser } from '../../redux/slice/ESimSlice';
 import EsimCard from '../../customs/Cards/EsimCard';
 import NetworkWrapper from '../../customs/NetworkWrapper';
 import { fetchUserDetails } from '../../redux/slice/UserSlice';
+import CountryCardSkeleton from '../../customs/Skeleton/CountrySkeleton';
+import FeatureCardSkeleton from '../../customs/Skeleton/FeatureCardSkeleton';
+import EsimCardSkeleton from '../../customs/Skeleton/EsimSkeleton';
 
 
 const { width } = Dimensions.get('window');
 
 const Home = () => {
     const dispatch = useAppDispatch();
-    const { countries } = useAppSelector((state) => state?.country);
-    const { featured } = useAppSelector((state) => state?.plan);
-    const { esims } = useAppSelector((state) => state?.esims);
+    const { countries, loading } = useAppSelector((state) => state?.country);
+    const { featured, loading: featureLoading } = useAppSelector((state) => state?.plan);
+    const { esims, loading: simLoading } = useAppSelector((state) => state?.esims);
     const [refreshing, setRefreshing] = useState(false);
     const pullAnim = useRef(new Animated.Value(0)).current; // 👈 for pull distance
 
@@ -139,63 +142,126 @@ const Home = () => {
                     showsVerticalScrollIndicator={false}
                 >
                     <SearchNavigate />
-                    {countries && (
-                        <View style={{ marginTop: moderateScale(20) }}>
-                            <CustomText text="Popular Country" weight="700" size={18} />
+                    {
+                        loading ? (
                             <FlatList
-                                data={countries.slice(0,5)}
-                                keyExtractor={(item) => item?.id?.toString()}
+                                data={[1, 2, 3]}
                                 horizontal
                                 contentContainerStyle={{
                                     gap: moderateScale(10),
                                     marginTop: moderateScale(10),
                                 }}
                                 showsHorizontalScrollIndicator={false}
-                                renderItem={({ item }) => <CountryCard item={item} />}
+                                renderItem={() => <CountryCardSkeleton />}
+                                keyExtractor={(i) => i.toString()}
                             />
-                        </View>
-                    )}
+                        ) : (
+                            <>
+                                {countries && (
+                                    <View style={{ marginTop: moderateScale(20) }}>
+                                        <CustomText text="Popular Country" weight="700" size={18} />
+                                        <FlatList
+                                            data={countries.slice(0, 5)}
+                                            keyExtractor={(item) => item?.id?.toString()}
+                                            horizontal
+                                            contentContainerStyle={{
+                                                gap: moderateScale(10),
+                                                marginTop: moderateScale(10),
+                                            }}
+                                            showsHorizontalScrollIndicator={false}
+                                            renderItem={({ item }) => <CountryCard item={item} />}
+                                        />
+                                    </View>
+                                )}
+                            </>
+                        )
+                    }
 
-                    {featured && (
-                        <View style={{ marginTop: moderateScale(20) }}>
-                            <CustomText text="Feature Plans" weight="700" size={18} />
-                            <FlatList
-                                data={featured.slice(0, 5)}
-                                horizontal
-                                contentContainerStyle={{
-                                    gap: moderateScale(10),
-                                    marginTop: moderateScale(10),
-                                }}
-                                showsHorizontalScrollIndicator={false}
-                                keyExtractor={(item) => item?.id?.toString()}
-                                renderItem={({ item }) => <FeatureCard item={item} />}
-                            />
-                        </View>
-                    )}
+                    {
+                        featureLoading ? (
+                            <View style={{ marginTop: moderateScale(20) }}>
+                                <CustomText text="Feature Plans" weight="700" size={18} />
+                                <FlatList
+                                    data={[1, 2, 3]}
+                                    horizontal
+                                    contentContainerStyle={{
+                                        gap: moderateScale(10),
+                                        marginTop: moderateScale(10),
+                                    }}
+                                    showsHorizontalScrollIndicator={false}
+                                    renderItem={() => <FeatureCardSkeleton />}
+                                    keyExtractor={(i) => i.toString()}
+                                />
+                            </View>
+                        ) : (
+                            <>
+                                {featured && (
+                                    <View style={{ marginTop: moderateScale(20) }}>
+                                        <CustomText text="Feature Plans" weight="700" size={18} />
+                                        <FlatList
+                                            data={featured.slice(0, 5)}
+                                            horizontal
+                                            contentContainerStyle={{
+                                                gap: moderateScale(10),
+                                                marginTop: moderateScale(10),
+                                            }}
+                                            showsHorizontalScrollIndicator={false}
+                                            keyExtractor={(item) => item?.id?.toString()}
+                                            renderItem={({ item }) => <FeatureCard item={item} />}
+                                        />
+                                    </View>
+                                )}
+                            </>
+                        )
+                    }
 
-                    {esims && esims.length > 0 && (
-                        <View style={{ marginTop: moderateScale(20) }}>
-                            <CustomText text="Your E-Sims" weight="700" size={18} />
-                            <FlatList
-                                data={esims.slice(0, 5)}
-                                horizontal
-                                contentContainerStyle={{
-                                    gap: moderateScale(10),
-                                    marginTop: moderateScale(10),
-                                }}
-                                showsHorizontalScrollIndicator={false}
-                                keyExtractor={(item: any) => item?.id?.toString()}
-                                renderItem={({ item }: any) => {
-                                    const status = item?.order?.status?.toLowerCase();
-                                    if (status !== "failed") {
-                                        return <EsimCard item={item} />;
-                                    }
-                                    return null;
-                                }}
 
-                            />
-                        </View>
-                    )}
+                    {
+                        simLoading ? (
+                            <View style={{ marginTop: moderateScale(20) }}>
+                                <CustomText text="Your E-Sims" weight="700" size={18} />
+                                <FlatList
+                                    data={[1, 2, 3]}
+                                    horizontal
+                                    contentContainerStyle={{
+                                        gap: moderateScale(10),
+                                        marginTop: moderateScale(10),
+                                    }}
+                                    showsHorizontalScrollIndicator={false}
+                                    renderItem={() => <EsimCardSkeleton />}
+                                    keyExtractor={(i) => i.toString()}
+                                />
+                            </View>
+                        ) : (
+                            <>
+                                {esims && esims.length > 0 && (
+                                    <View style={{ marginTop: moderateScale(20) }}>
+                                        <CustomText text="Your E-Sims" weight="700" size={18} />
+                                        <FlatList
+                                            data={esims.slice(0, 5)}
+                                            horizontal
+                                            contentContainerStyle={{
+                                                gap: moderateScale(10),
+                                                marginTop: moderateScale(10),
+                                            }}
+                                            showsHorizontalScrollIndicator={false}
+                                            keyExtractor={(item: any) => item?.id?.toString()}
+                                            renderItem={({ item }: any) => {
+                                                const status = item?.order?.status?.toLowerCase();
+                                                if (status !== "failed") {
+                                                    return <EsimCard item={item} />;
+                                                }
+                                                return null;
+                                            }}
+
+                                        />
+                                    </View>
+                                )}
+                            </>
+                        )
+                    }
+
+
 
                     <View
                         style={{ marginBottom: moderateScale(120) }}

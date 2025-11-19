@@ -220,9 +220,8 @@ const Checkout = () => {
             </ScrollView>
 
             {/* Button */}
-            <View style={{ marginTop: moderateScale(20), flex: 0.25 }}>
-                <CustomButton title="Pay Now" loading={loading} disabled={loading || codLoading} onPress={handleStripePayment} />
-                <CustomButton title="Pay Cash on Delivery" bg={Colors.secondary} customStyle={{ marginTop: moderateScale(10) }} loading={codLoading} disabled={codLoading || loading} onPress={handleCod} />
+            <View style={{ marginTop: moderateScale(20), flex: 0.15 }}>
+                <CustomButton title="Pay Now" radius={moderateScale(10)} loading={loading} disabled={loading || codLoading} onPress={handleStripePayment} />
             </View>
         </Container>
     );
@@ -238,5 +237,6 @@ const styles = StyleSheet.create({
         padding: moderateScale(5),
         borderRadius: moderateScale(10),
         elevation: 2,
+        paddingVertical:moderateScale(15)
     },
 });

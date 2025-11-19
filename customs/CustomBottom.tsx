@@ -41,7 +41,7 @@ export function BottomTabs() {
     {
       id: 3,
       route: "AppDrawer",
-      label: "Profile",
+      label: "Account",
       iconType: "Feather",
       iconName: "user",
       component: Profile,

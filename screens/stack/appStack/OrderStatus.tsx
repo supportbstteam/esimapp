@@ -13,6 +13,7 @@ import { useAppDispatch } from '../../../redux/Store';
 import { clearCart, fetchCart } from '../../../redux/slice/CartSlice';
 import CustomButton from '../../../customs/CustomButton';
 import Colors from '../../../utils/Color';
+import { fetchUserDetails } from '../../../redux/slice/UserSlice';
 
 const OrderStatus = () => {
   const route = useRoute();
@@ -26,6 +27,7 @@ const OrderStatus = () => {
   useBackHandler(async () => {
     await dispatch(clearCart());
     await dispatch(fetchCart());
+    await dispatch(fetchUserDetails());
     navigation.navigate('AppDrawer' as never);
   });
 

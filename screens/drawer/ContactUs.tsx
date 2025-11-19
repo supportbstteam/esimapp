@@ -23,8 +23,8 @@ const ContactUs = () => {
   const fetchContacts = async () => {
     setLoading(true)
     try {
-      const response = await axios.get("https://esim-backend-three.vercel.app/api/user/cms/contacts");
-      const contentResponse = await axios.get("https://esim-backend-three.vercel.app/api/user/cms/content/contact");
+      const response = await axios.get("https://esim-backend-w7ox.onrender.com/api/user/cms/contacts");
+      const contentResponse = await axios.get("https://esim-backend-w7ox.onrender.com/api/user/cms/content/contact");
 
       if (response?.status === 200) {
         setContacts(response.data || []);

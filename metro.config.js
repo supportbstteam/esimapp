@@ -10,11 +10,15 @@ const config = {
   resolver: {
     // Handle .svg files with react-native-svg-transformer
     assetExts: (getDefaultConfig(__dirname).resolver.assetExts || []).filter(
-      ext => ext !== 'svg'
+      ext => ext !== 'svg',
     ),
-    sourceExts: [...(getDefaultConfig(__dirname).resolver.sourceExts || []), 'svg'],
+    sourceExts: [
+      ...(getDefaultConfig(__dirname).resolver.sourceExts || []),
+      'svg',
+    ],
     blockList: [
       /node_modules\/react-native\/src\/private\/featureflags\/NativeReactNativeFeatureFlags\.js/,
+      /moti\/build\/skeleton\/expo\.js/,
     ],
   },
   transformer: {
