@@ -13,7 +13,9 @@ import {
 } from "../../components/Matrix/Responsive";
 import Colors from "../../utils/Color";
 
-const FeatureCardSkeleton = () => {
+const FeatureCardSkeleton = ({
+  width = (screenWidth * .7)
+}) => {
   const opacity = useSharedValue(0.4);
 
   useEffect(() => {
@@ -25,7 +27,7 @@ const FeatureCardSkeleton = () => {
   }));
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { width: width }]}>
       {/* Top Row */}
       <View style={styles.topRow}>
         {/* Flag */}
@@ -62,8 +64,8 @@ const styles = StyleSheet.create({
     paddingVertical: moderateScale(5),
     paddingHorizontal: moderateScale(10),
     borderRadius: moderateScale(10),
-    borderWidth: 1,
-    borderColor: Colors.primary,
+    borderWidth: .5,
+    borderColor: Colors.lightGray,
     backgroundColor: Colors.white,
     elevation: 3,
     marginHorizontal: moderateScale(5),

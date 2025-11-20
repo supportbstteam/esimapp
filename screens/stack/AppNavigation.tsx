@@ -35,7 +35,7 @@ const AppNavigation = () => {
   return (
     <View style={{ flex: 1, backgroundColor: "white" }} >
       {
-        isAuth && !loading ? <AppStack /> : <AuthStack />
+        isAuth ? <AppStack /> : <AuthStack />
       }
     </View>
   )

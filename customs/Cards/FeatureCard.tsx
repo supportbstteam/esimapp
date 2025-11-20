@@ -10,7 +10,7 @@ import { useAppDispatch } from '../../redux/Store';
 import { useNavigation } from '@react-navigation/native';
 import FlagContainer from '../../components/FlagContainer';
 
-const FeatureCard = ({ item }: any) => {
+const FeatureCard = ({ item, width =(screenWidth * .7 )}: any) => {
     const navigation: any = useNavigation();
     const dispatch = useAppDispatch();
     // console.log("----- item in feature plans ----", item);
@@ -19,7 +19,9 @@ const FeatureCard = ({ item }: any) => {
             navigation.navigate("CountryPlans", {
                 id: item?.country?.id
             })
-        }} style={styles.container} >
+        }} style={[styles.container, {
+            width: width
+        }]} >
             <View style={[globalStyle.between, {
                 flex: .7, paddingTop: moderateScale(10)
             }]} >

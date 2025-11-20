@@ -11,7 +11,7 @@ import {
 import Container from '../../components/Container';
 import UserHeader from '../../customs/Headers/UserHeader';
 import SearchNavigate from '../../customs/Headers/SearchNavigate';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { useAppDispatch, useAppSelector } from '../../redux/Store';
 import { fetchCountries } from '../../redux/thunk/thunk';
 import { featurePlans } from '../../redux/thunk/planThunk';
@@ -31,12 +31,10 @@ import { fetchUserDetails } from '../../redux/slice/UserSlice';
 import CountryCardSkeleton from '../../customs/Skeleton/CountrySkeleton';
 import FeatureCardSkeleton from '../../customs/Skeleton/FeatureCardSkeleton';
 import EsimCardSkeleton from '../../customs/Skeleton/EsimSkeleton';
-
-
-const { width } = Dimensions.get('window');
-
+import SubHeader from '../../customs/Headers/SubHeader';
 const Home = () => {
     const dispatch = useAppDispatch();
+    const navigation: any = useNavigation();
     const { countries, loading } = useAppSelector((state) => state?.country);
     const { featured, loading: featureLoading } = useAppSelector((state) => state?.plan);
     const { esims, loading: simLoading } = useAppSelector((state) => state?.esims);
@@ -159,7 +157,9 @@ const Home = () => {
                             <>
                                 {countries && (
                                     <View style={{ marginTop: moderateScale(20) }}>
-                                        <CustomText text="Popular Country" weight="700" size={18} />
+                                        <SubHeader title="Popular Country" isMore={true} onPress={() => {
+                                            navigation.navigate("PopularCountries")
+                                        }} />
                                         <FlatList
                                             data={countries.slice(0, 5)}
                                             keyExtractor={(item) => item?.id?.toString()}
@@ -180,7 +180,9 @@ const Home = () => {
                     {
                         featureLoading ? (
                             <View style={{ marginTop: moderateScale(20) }}>
-                                <CustomText text="Feature Plans" weight="700" size={18} />
+                                <SubHeader title="Feature Plans" isMore={true} onPress={() => {
+                                    navigation.navigate("FeaturePlans")
+                                }} />
                                 <FlatList
                                     data={[1, 2, 3]}
                                     horizontal
@@ -197,7 +199,9 @@ const Home = () => {
                             <>
                                 {featured && (
                                     <View style={{ marginTop: moderateScale(20) }}>
-                                        <CustomText text="Feature Plans" weight="700" size={18} />
+                                        <SubHeader title="Feature Plans" isMore={true} onPress={() => {
+                                            navigation.navigate("FeaturePlans")
+                                        }} />
                                         <FlatList
                                             data={featured.slice(0, 5)}
                                             horizontal
@@ -219,7 +223,9 @@ const Home = () => {
                     {
                         simLoading ? (
                             <View style={{ marginTop: moderateScale(20) }}>
-                                <CustomText text="Your E-Sims" weight="700" size={18} />
+                                <SubHeader title="Your E-Sims" isMore={true} onPress={() => {
+                                    navigation.navigate("Data")
+                                }} />
                                 <FlatList
                                     data={[1, 2, 3]}
                                     horizontal
@@ -236,7 +242,9 @@ const Home = () => {
                             <>
                                 {esims && esims.length > 0 && (
                                     <View style={{ marginTop: moderateScale(20) }}>
-                                        <CustomText text="Your E-Sims" weight="700" size={18} />
+                                        <SubHeader title="Your E-Sims" isMore={true} onPress={() => {
+                                            navigation.navigate("Data")
+                                        }} />
                                         <FlatList
                                             data={esims.slice(0, 5)}
                                             horizontal

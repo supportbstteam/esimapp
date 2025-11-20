@@ -141,9 +141,9 @@ const Login = () => {
                 <>
                   {/* ===== LOGO ===== */}
                   <View style={styles.logoContainer}>
-                    <Images.Logo
+                    <Images.AeroLogo
                       width={moderateScale(200)}
-                      height={moderateScale(100)}
+                      height={moderateScale(150)}
                       style={{ alignSelf: "center" }}
                     />
                   </View>

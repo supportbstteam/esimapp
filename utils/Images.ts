@@ -3,6 +3,7 @@ import CartJson from "../assets/json/cart.json"
 import Empty from "../assets/empty.svg"
 import BwTour from "../assets/bwtour.svg"
 import MonoTour from "../assets/monotour.svg"
+import AeroLogo from "../assets/aero.svg"
 import EmptyGif from "../assets/gif/empty.gif"
 import Loading from "../assets/gif/loading.gif"
 import Failed from "../assets/gif/failed.gif"
@@ -18,6 +19,7 @@ import User from "../assets/json/user.json"
 
 // import CartGif from "../assets/gif/cart.gif"
 export const Images = {
+    AeroLogo,
     BwTour,
     MonoTour,
     Logo,

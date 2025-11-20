@@ -15,6 +15,8 @@ import TopUp from './TopUp';
 import TopUpOrder from './TopUpOrder';
 import AppDrawer from '../../drawer/AppDrawer';
 import ChangePassword from './ChangePassword';
+import PopularCountries from './PopularCountries';
+import FeaturePlans from './FeaturePlans';
 const Stack = createNativeStackNavigator();
 const AppStack = () => {
 
@@ -32,6 +34,8 @@ const AppStack = () => {
     { id: 10, name: "TopUp", component: TopUp },
     { id: 11, name: "TopUpOrder", component: TopUpOrder },
     { id: 12, name: "ChangePassword", component: ChangePassword },
+    { id: 13, name: "PopularCountries", component: PopularCountries },
+    { id: 14, name: "FeaturePlans", component: FeaturePlans },
   ];
   return (
     <View style={{flex:1, backgroundColor:"#fff"}} >

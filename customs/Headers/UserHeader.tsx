@@ -17,8 +17,14 @@ const UserHeader = () => {
     // console.log("--- user in the custom header ----", cart);
     return (
         <View style={[styles.container, globalStyle.betweenCenter, { marginBottom: moderateScale(5) }]} >
-            {/* <Images.Logo width={100} height={100} /> */}
-            <CustomText weight="600" size={18} text={`Hello! ${user?.firstName + " " + user?.lastName}`} />
+            <View style={[globalStyle.row]} >
+                <Images.AeroLogo
+                    width={moderateScale(50)}
+                    height={moderateScale(50)}
+                    style={{ alignSelf: "center" }}
+                />
+                <CustomText customStyle={{marginLeft:moderateScale(10)}} weight="600" size={18} text={`Hello! ${user?.firstName + " " + user?.lastName}`} />
+            </View>
             <Pressable onPress={() => {
                 navigation.navigate('Cart');
             }} >
